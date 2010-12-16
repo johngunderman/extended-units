@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# This is the postinst script for the Debian GNU/Linux units package
+#
+# Written by John G. Hasler  
+
+set -e
+
+#DEBHELPER#
+
+case "$1" in
+	configure)
+		if [ -x "`which update-menus 2>/dev/null`" ]; then
+        		update-menus
+		fi
+	;;
+    	abort-remove|abort-deconfigure|abort-upgrade)
+    		# Nothing to undo
+	;;
+
+    *)
+	echo "postinst called with unknown argument \`$1'" >&2
+	;;
+esac

@@ -1,0 +1,257 @@
+units (1.87-2) unstable; urgency=low
+
+  * Deleted debian/prerm, fixed debian/postinst and postrm.
+    Added debian/compat (level 7), Edited debian/control
+    Brought standards-version up to 3.8.3, updated libreadline
+    build dependency, added dpkg (>= 1.15.4) | install-info to depends:
+
+  * Replaced "more" with "/usr/bin/pager" at line 55 in units.c
+    Closes: #548597 Please use /usr/bin/pager as default pager
+  
+ -- John G. Hasler <jhasler@debian.org>  Wed, 07 Oct 2009 21:34:00 -0500
+
+units (1.87-1) unstable; urgency=low
+
+  * New upstream release
+  
+    Upstream made "*" and "/" the same precedence.
+    Closes: #359658: units: precedence of '/' is bad 
+  
+    Units reads ~/.units.dat if it exists before reading the standard
+    units database.
+    Closes: #456544: units: $UNITSFILE doesn't override default anymore 
+  
+ -- John Hasler <jhasler@debian.org>  Sun, 20 Jul 2008 21:54:50 -0500
+
+units (1.86a-1) unstable; urgency=low
+
+  * New upstream release
+  
+    Upstream has changed this section: we now have usbillion and
+    brbillion.  Elsewhere billion is defined as usbillion.  Perhaps 
+    in the future this could be made to depend on locale.
+    Closes: #165946: units: Confusing information in units.dat
+  
+    Upstream added a "help" command that searches the database.
+    Closes: #375255: units: wishlist (finding the "unit")
+  
+    Closes: #370224: crochet is spelled crotchet
+  
+  * 'install -s' now only used if 'nostrip' is not in DEB_BUILD_OPTIONS.
+    Closes: #438233: units: not handling nostrip build option (policy 10.1)
+
+  * Fixed menu entry.
+  
+  * Fixed parallel build problem by consolidating all "install -d"
+    commands in debian/rules into one line.
+  
+  
+ -- John Hasler <jhasler@debian.org>  Sun, 2 Dec 2007 21:46:50 -0600
+
+units (1.85-3) unstable; urgency=low
+
+  * Fixed typo in control file
+  
+  * Added missing build-depends on texinfo
+    Closes: #340850: FTBFS: makeinfo: Command not found
+  
+ -- John Hasler <jhasler@debian.org>  Wed, 21 Dec 2005 21:10:54 -0600
+
+units (1.85-2) unstable; urgency=low
+
+  * Fixed calling of configure script in rules.
+    Closes: #340850: FTBFS: makeinfo: Command not found
+  
+  * Upstream changed handling of imperial units (didn't notice earlier).
+    Closes: #259411: Mile incorrectly related to other imperial units
+
+ -- John Hasler <jhasler@debian.org>  Tue, 13 Dec 2005 20:56:45 -0600
+
+units (1.85-1) unstable; urgency=low
+
+  * New upstream release
+    Closes: #339108 units: new upstream release available
+    Closes: #223890 Missing 0 in the help text.
+    Closes: #266752 -V: doubled slash
+    Closes: #233472 suggest cdromspeed and dvdspeed units
+    Closes: #204473 "nmi" should be "nauticalmile", not "nanomile" [patch]
+  
+  * Fixed build dependencies.
+    Closes: #326284 please rebuild with libreadline5-dev as build dependency
+    Closes: #322941 switch to libreadline5
+  
+  * Fixed typos.
+    Closes: #302822 'man units' typos: "Fahrehneit" and "accomodates"
+  
+  * Corrected FSF address.
+  
+  * Put missing quotes in menu, moved menu to /usr/share.
+  
+ -- John Hasler <jhasler@debian.org>  Tue, 22 Nov 2005 21:33:27 -0600
+
+units (1.81-4) unstable; urgency=low
+
+  * Added md5sums.
+
+ -- John Hasler <jhasler@debian.org>  Tue, 2 Dec 2003 14:30:00 -0500
+
+units (1.81-3) unstable; urgency=low
+
+  * Closes: #195260 FTBFS with gcc-3.3: Uses multiline strings
+    Removed example script from end of units.c.  gcc 3.3 was
+    choking on it despite it being inside a '#if 0 ... #endif'.
+
+ -- John Hasler <john@dhh.gt.org>  Thur, 29 May 2003 20:30:00 -0500
+
+units (1.81-2) unstable; urgency=low
+
+  * Closes: #168132 FTBFS: missing build-depends
+    Added texi2html
+
+ -- John Hasler <john@dhh.gt.org>  Thur, 7 Nov 2002 8:00:00 -0600
+
+units (1.81-1) unstable; urgency=low
+
+  * New upstream version
+  * Simplified scripts, added Build-Depends
+  * Closes: #150343 New upstream version
+  * Closes: #160955 Something Weird About Kelvin-value
+    User error
+  * Closes: #165955 surveyfoot/intfoot inconsistency
+    Fixed in new upstream
+
+ -- John Hasler <john@dhh.gt.org>  Mon, 4 Nov 2002 16:30:00 -0600
+
+units (1.77-1) unstable; urgency=low
+
+  * New upstream version.
+  * Closes: #88634
+  * Closes: #97022
+  * Closes: #88631
+
+ -- John Hasler <john@dhh.gt.org>  Thu, 10 May 2001 20:45:00 -0500
+
+units (1.55-4) unstable; urgency=low
+
+  * Rebuild to use libreadline4.
+
+ -- John Hasler <john@dhh.gt.org>  Mon, 24 Jul 2000 20:45:00 -0500
+
+units (1.55-3) unstable; urgency=low
+
+  * Add readline support.
+  * closes: #59589
+  * closes: #60900
+
+ -- John Hasler <john@dhh.gt.org>  Wed, 22 Mar 2000 20:45:00 -0500
+
+units (1.55-2) unstable; urgency=low
+
+  * Policy compliance.
+
+ -- John Hasler <john@dhh.gt.org>  Sun, 8 Jan 2000 20:45:00 -0500
+
+units (1.55-1) unstable; urgency=low
+
+  * New upstream release.
+  * closes: #43354, #25160
+
+ -- John Hasler <john@dhh.gt.org>  Tue, 3 Aug 1999 20:45:00 -0500
+
+units (1.54-6) unstable; urgency=low
+
+  * Upped libreadlineg2 dependency from -12 to -13 because of
+    segfaults with -12.
+
+ -- John Hasler <john@dhh.gt.org>  Sat, 15 May 1999 16:54:37 -0500
+
+units (1.54-5) unstable; urgency=low
+
+  * debian/control (Maintainer): new maintainer.
+  * Rebuilt with libc6 2.1.1-1.
+
+ -- John Hasler <john@dhh.gt.org>  Tue, 27 Apr 1999 20:54:37 -0500
+
+units (1.54-4) frozen unstable; urgency=low
+
+  * debian/control (Standards-Version): updated to 2.4.1.0.
+  * debian/control (Maintainer): new address.
+  * debian/copy: ditto.
+  * Rebuilt with ncurses4.
+  * units.c: #include <readline/history.h> iff READLINE is defined to get
+    add_history() prototype.
+  * units.c: Added prototypes for handlesum(), completereduce() and
+    compareunits().
+  * units.c (readunits,lookupunit,addunit,completeunits): parentheses
+    around assignment used as a truth value.
+  * units.c (showanswer): initialize sep, right and left to quiet -Wall.
+  * debian/rules (binary-arch): install the `NEWS' and `README' files into
+    /usr/doc/units/.
+
+ -- James Troup <james@nocrew.org>  Fri, 23 Oct 1998 16:29:34 +0100
+
+units (1.54-3) frozen unstable; urgency=low
+
+  * debian/rules (build): pass datadir=/usr/share/misc/ to configure to
+    ensure that units.dat goes to /usr/share/misc/ and doesn't clutter up
+    /usr/share/, reported by Scott Ellis <ellis@valueweb.net>. [#20481]
+  * debian/urles (binary-arch): ditto (datadir=/debian/tmp/usr/share/misc
+    to make install).
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Thu,  2 Apr 1998 02:34:53 +0100
+
+units (1.54-2) unstable; urgency=low
+
+  * debian/control (Standards-Version): updated to 2.4.0.0.
+  * debian/copyright: correct reference to now uncompressed GPL in
+    /usr/doc/copyright.
+  * debian/copyright: correct the FSF's address.
+  * debian/rules: drop $(package) and use a literal string instead.
+  * debian/rules: use go=rX as the argument to chmod, rather than g-ws.
+  * debian/rules: don't pass -c to install.
+  * debian/rules: other minor cleanups.
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Fri, 13 Feb 1998 21:04:47 +0000
+
+units (1.54-1) unstable; urgency=low
+
+  * New upstream version.
+  * Uses pristine upstream source.
+  * Compile with -g, strip on install.
+  * Minor update to postinst. prerm removed and replaced by a more 
+    intelligent postrm.
+  * Minor fixes to copyright file.
+  * Added a menu entry.
+  * Minor alterations to the rules file (now {}-free *sigh*).
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Tue, 18 Nov 1997 03:11:17 +0000
+
+units (1.53-3) unstable; urgency=low
+
+  * Rebuilt with libc6. 
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Wed, 25 Jun 1997 18:54:32 +0100
+
+units (1.53-2) frozen unstable; urgency=low
+
+  * Patched units.c so that units doesn't go mad when passed null
+    arguments.  Patch from Mark Baker <mbaker@iee.org>.
+  * Extended units.dat, patch from Mark Baker <mbaker@iee.org> :-
+      eushot, thou, ecu, unitedkingdompound, unitedstatesdollar,
+      British currency (shilling, oldpence, quid, fiver, tenner), 
+      English spellings of aluminum and sulfur,
+      ISO currency codes (+ UKP).
+  * Correct Section: in debian/control (misc -> utils).
+  * Replaced cp's with install's in debian/rules.
+  * Removed substvars in debian/rules clean target.
+  * Added HTML documentation (converted from texinfo) as per standard.
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Thu, 3 Apr 1997 00:58:11 +0100
+
+units (1.53-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- James Troup <jjtroup@comp.brad.ac.uk>  Sun, 19 Jan 1997 20:44:33 +0000
+
+

@@ -1,0 +1,16 @@
+Source: units
+Section: utils
+Priority: optional
+Maintainer: John G. Hasler <jhasler@debian.org>
+Standards-Version: 3.8.3
+Build-Depends: libreadline-dev | libreadline6-dev | libreadline5-dev, texi2html, texinfo
+
+Package: units
+Architecture: any
+Depends: ${shlibs:Depends}, dpkg (>= 1.15.4) | install-info
+Description: converts between different systems of units
+ GNU 'units' program converts quantities expressed in various scales
+ to their equivalents in other scales.  The 'units' program can only
+ handle multiplicative scale changes directly.  It uses a functional
+ notation for "nonlinear" conversions such a Fahrenheit temperature
+ to Celsius temperature.

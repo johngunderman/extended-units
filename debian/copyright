@@ -1,0 +1,60 @@
+This is Debian GNU/Linux's prepackaged version of the FSF's GNU units
+utility.  GNU 'units' program converts quantities expressed in various
+scales to their equivalents in other scales.
+
+This package was put together by me, James Troup <james@nocrew.org>,
+from the GNU sources, which I obtained from
+sunsite.doc.ic.ac.uk:/pub/gnu/units-1.54.tar.gz.
+
+The current version of the package was obtained from 
+ftp://ftp.gnu.org/gnu/units
+by John Hasler, the current Debian maintainer.
+
+
+The changes were minimal:
+
+o adding support for the Debian package maintenance scheme, by adding
+  various debian/* files.
+o units.c: #include <readline/history.h> iff READLINE is defined to
+  get add_history() prototype.
+o units.c: Added prototypes for handlesum(), completereduce() and
+  compareunits().
+o units.c (readunits,lookupunit,addunit,completeunits): parentheses
+  around assignment used as a truth value.
+o units.c (showanswer): initialize sep, right and left to quiet -Wall.
+
+Program Copyright (C) 1996, 1997 Free Software Foundation, Inc.
+Modifications for Debian Copyright (C) 1997, 1998 James Troup.
+Additional modifications for Debian copyright 1999-2008 John Hasler.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License with
+your Debian GNU/Linux system, in /usr/share/common-licenses/GPL, or with the
+Debian GNU/Linux units source package as the file COPYING.  If not,
+write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+Boston, MA 02110-1301, USA.
+
+Manual (units.info) Copyright (C) 1996, 1997 Free Software Foundation,
+Inc.
+
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this
+manual into another language, under the above conditions for modified
+versions.

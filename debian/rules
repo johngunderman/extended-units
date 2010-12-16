@@ -1,0 +1,92 @@
+#!/usr/bin/make -f
+# debian/rules file - for GNU Units (1.54).
+# Modified from sample debian/rules file - for GNU Hello (1.3).
+# Copyright 1994,1995 by Ian Jackson.
+# Copyright 1997, 1998 by James Troup.
+# I hereby give you perpetual unlimited permission to copy,
+# modify and relicense this file, provided that you do not remove
+# my name from the file itself.  (I assert my moral right of
+# paternity under the Copyright, Designs and Patents Act 1988.)
+# This file may have to be extensively modified
+
+	export DEB_HOST_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+	export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+	# FOR AUTOCONF 2.52 AND NEWER ONLY
+	ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+	confflags += --build $(DEB_HOST_GNU_TYPE)
+	else
+	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+	endif
+
+	NOSTRIP=$(findstring nostrip,$(DEB_BUILD_OPTIONS))
+	ifeq ($(NOSTRIP),)
+	INSTALLER="install -s"
+	else
+	INSTALLER="install"
+	endif
+
+build:
+	$(checkdir)
+	./configure --prefix=/usr --datadir=/usr/share/misc
+	$(MAKE) CFLAGS="-O2 -g -Wall"
+	texi2html -monolithic units.texinfo
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -f build
+	-$(MAKE) -i distclean || $(MAKE) -f Makefile.in distclean
+	-rm -rf *~ debian/units debian/*~ debian/files* \
+		debian/substvars*  *.html
+
+binary-indep: checkroot build
+	$(checkdir)
+
+binary-arch: checkroot build
+	$(checkdir)
+	-rm -rf debian/units
+	install -d debian/units/DEBIAN/ debian/units/usr/share/doc/units/ debian/units/usr/share/menu
+	install -m 755 debian/postinst debian/units/DEBIAN/
+	install -m 755 debian/postrm debian/units/DEBIAN/
+
+	$(MAKE) INSTALL_PROGRAM=$(INSTALLER) \
+		prefix=debian/units/usr datadir=debian/units/usr/share/misc \
+		install
+
+#	mv debian/units/usr/info debian/units/usr/share
+#	mv debian/units/usr/man debian/units/usr/share
+	gzip -9v debian/units/usr/share/info/* debian/units/usr/share/man/man1/*
+
+	install -m 644 README NEWS debian/units/usr/share/doc/units/
+	install -m 644 debian/changelog debian/units/usr/share/doc/units/changelog.Debian
+	install -m 644 ChangeLog debian/units/usr/share/doc/units/changelog
+	gzip -9v debian/units/usr/share/doc/units/*
+	install -m 644 *.html debian/units/usr/share/doc/units/
+	install -m 644 debian/copyright debian/units/usr/share/doc/units/
+
+	install -m 644 debian/menu debian/units/usr/share/menu/units
+
+	dpkg-shlibdeps ./units
+	dpkg-gencontrol -Pdebian/units
+	find debian/units/* -type f ! -regex '^debian/units/DEBIAN/.*' -print0 | xargs -r0 md5sum | sed -e 's/debian\/units\///g'> debian/units/DEBIAN/md5sums
+	chown -R root.root debian/units
+	chmod -R go=rX debian/units
+	dpkg --build debian/units ..
+
+define checkdir
+	test -f units.c -a -f debian/rules
+endef
+
+# Below here is fairly generic really
+
+binary:		binary-indep binary-arch
+
+source diff:
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+checkroot:
+	$(checkdir)
+	test root = "`whoami`"
+
+.PHONY: binary binary-arch binary-indep clean checkroot
