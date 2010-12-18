@@ -149,6 +149,7 @@ funcunit(struct unittype *theunit, struct function *fun)
 %token <utype> UNIT
 %token <dfunc> RFUNC
 %token <ufunc> UFUNC
+%token <utype> ANS
 %token <integer> EXPONENT
 %token <integer> MULTIPLY
 %token <integer> MULTSTAR
@@ -172,7 +173,7 @@ funcunit(struct unittype *theunit, struct function *fun)
 %left UNARY
 %left DIVIDE MULTSTAR
 %left MULTIPLY MULTMINUS
-%nonassoc '(' SQRT CUBEROOT RFUNC UNIT REAL UFUNC FUNCINV SCANERROR
+%nonassoc '(' SQRT CUBEROOT RFUNC UNIT ANS REAL UFUNC FUNCINV SCANERROR
 %right EXPONENT
 %left NUMDIV
 
@@ -210,6 +211,7 @@ funcunit(struct unittype *theunit, struct function *fun)
 
  list:  numexpr                    { $$ = makenumunit($1,&err); CHECK;}
       | UNIT                       { $$ = $1; }
+      | ANS                        { $$ = ans; CHECK; }
       | list EXPONENT list         { err = unitpower($1,$3); CHECK; $$=$1;}
       | list MULTMINUS list        { err = multunit($1,$3); CHECK; $$=$1;}
       | list list %prec MULTIPLY   { err = multunit($1,$2); CHECK; $$=$1;}
@@ -288,6 +290,7 @@ yylex(YYSTYPE *lvalp, struct commtype *comm)
   
   if (comm->location==-1) return 0;
   inptr = comm->data + comm->location;   /* Point to start of data */
+
 
   /* Skip white space */
   while( *inptr && strchr(WHITE,*inptr)) inptr++, comm->location++;
@@ -383,6 +386,13 @@ yylex(YYSTYPE *lvalp, struct commtype *comm)
       comm->location += length;
       return UNIT;
   } 
+
+  /* Look for specific @ans token, */
+  if(strncmp(inptr,"@ans", 4) == 0) {
+    comm->location += 4; /* A bit hacky at the moment */
+    return ANS;
+  }
+
 
   /* Look for user defined function */
 

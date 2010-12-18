@@ -49,7 +49,7 @@ GNU `units' includes the following extensions:
   * Funtions such as sin, cos, and log are supported.
   * Roots of units can be computed.
   * Nonlinear units conversions are supported. 
-
+  * The result of the last calculation can be accessed with '@ans'
 ----------------------------------------------------------------------
 
 Extensions

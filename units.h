@@ -134,6 +134,8 @@ extern struct unittype *parameter_value;
 extern char *function_parameter;
 extern int minusminus;
 extern int oldstar;
+extern struct unittype *ans;
+
 
 void *mymalloc(int bytes,char *mesg);
 void initializeunit(struct unittype *theunit);

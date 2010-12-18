@@ -84,26 +84,26 @@ char *deftext="\tDefinition: "; /* Output text when printing definition */
 #define  PREFIXTABSIZE 128
 #define  prefixhash(str) (*(str) & 127)    /* "hash" value for prefixes */
 
-char *errormsg[]={"Successful completion", 
-                  "Parse error",           
-                  "Product overflow",      
-                  "Unit reduction error (bad unit definition)",
-                  "Illegal sum or difference of non-conformable units",
-                  "Unit not dimensionless",
-		  "Unit not a root",
-		  "Unknown unit",
-		  "Bad argument",
-		  "Weird nonlinear unit type (bug in program)",
-		  "Function argument has wrong dimension",
-		  "Argument of table outside domain",
-		  "Nonlinear unit definition has unit error",
-		  "No inverse defined",
-		  "Parser memory overflow (recursive function definition?)",
-		  "Argument wrong dimension or bad nonlinear unit definition",
-                  "Unable to open units file",
-		  "Units file contains errors",
-		  "Memory allocation error"
-                  };
+char *errormsg[]={"Successful completion",  /* 0 */
+                  "Parse error",  /* 1 */
+                  "Product overflow",      /* 2 */
+                  "Unit reduction error (bad unit definition)",/* 3 */
+                  "Illegal sum or difference of non-conformable units",/* 4 */
+                  "Unit not dimensionless",/* 5 */
+		  "Unit not a root",/* 6 */
+		  "Unknown unit",/* 7 */
+		  "Bad argument",/* 8 */
+		  "Weird nonlinear unit type (bug in program)",/* 9 */
+		  "Function argument has wrong dimension",/* 10 */
+		  "Argument of table outside domain",/* 11 */
+		  "Nonlinear unit definition has unit error",/* 12 */
+		  "No inverse defined",/* 13 */
+		  "Parser memory overflow (recursive function definition?)",/* 14 */
+		  "Argument wrong dimension or bad nonlinear unit definition",/* 15 */
+                  "Unable to open units file",/* 16 */
+		  "Units file contains errors",/* 17 */
+		  "Memory allocation error",/* 18 */
+                   };
 
 char *irreducible=0;            /* Name of last irreducible unit */
 
@@ -146,6 +146,16 @@ struct func *lastfunc = 0;     /* Last entry in linked list of functions */
 
 char *function_parameter = 0; 
 struct unittype *parameter_value = 0;
+
+/*
+  Will Store the result of our last computation so that we can access it
+  for use in our next computation
+ */
+
+struct unittype *ans = 0;
+
+
+
 
 char *NULLUNIT = "";  /* Used for units that are canceled during reduction */
 
@@ -2609,7 +2619,30 @@ Typing 'search text' will show units whose names contain 'text'.\n\n",
   return 0;
 }
 
- 
+
+/* 
+   Generates a unittype containing the result of the given computation and stores
+   the result into dest.
+*/
+
+void
+setans(struct unittype *have,struct unittype *want, struct unittype *dest)
+{
+
+
+  if (!want)
+    unitcopy(dest, have);
+  else {
+    if (!*(want->numerator) && !*(want->denominator)) {
+      unitcopy(dest, have);
+    } else {
+      unitcopy(dest, want);
+    }
+    if (want->factor) {
+      dest->factor = have->factor / want->factor;
+    }
+  }
+}
 
 int
 main(int argc, char **argv)
@@ -2623,6 +2656,8 @@ main(int argc, char **argv)
    int readerr;
    char **unitfileptr;
    int unitcount=0, prefixcount=0, funccount=0;   /* for counting units */
+   
+   ans = mymalloc(sizeof(struct unittype), "(main)");
 
 #ifdef READLINE
 #  if RL_READLINE_VERSION >= 0x0402 
@@ -2730,15 +2765,17 @@ main(int argc, char **argv)
            showdefinition(havestr,&have);
          else if (funcval = isfunction(wantstr))
            showfunc(havestr, &have, funcval);
-	 else {
+	 else
            showanswer(havestr,&have,wantstr, &want);
-	   freeunit(&want);
-	 }
+
+	 setans(&have, &want, ans);
          freeunit(&have);
+	 freeunit(&want);
       }
    }
    return (0);
 }
+
 
 /* NOTES:
 

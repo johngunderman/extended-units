@@ -1,3 +1,22 @@
+2010-12-18  johngunderman <johngunderman@gmail.com>
+
+        * parse.y: Added ANS token, which allows user to reference the
+        variable @ans during calculations. @ans stores the result of the
+        last calculation performed in units.
+        
+        * units.h: Added extern variable 'ans' which contains the last
+        result calculated by units. 
+        
+        * units.c: Added numbering (int the comments)  to error strings 
+        in errormsg[]. 
+        
+        * units.c (setans): Added function setans(), which sets the ans
+        variable based on the contents of the *have and *want unittype
+        variables.
+
+        * units.c (main): Added call to setans(); rearranged where &have
+        and &want get freed.
+
 2007-05-18  adrian  <adrian@cox.net>
 
 	* units.c (personalunitsfile): Added personalunitsfile() function
